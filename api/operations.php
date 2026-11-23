@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__.'/../includes/certificate-auth.php';
+
+$user=fleet_cert_require_user();if(!fleet_cert_user_can($user,'page.operations')&&!fleet_cert_user_can($user,'page.operations-approvals'))json_response(['ok'=>false,'message'=>'Your role cannot open fleet operations.'],403);
+$db=fleet_db();
+
+try {
+    $assets=$db->query("SELECT a.id,a.primary_identifier,a.make,a.model,a.manufacture_year,a.registration_status,a.is_active,a.current_yard_id,a.current_status_id,a.updated_at,t.type_code,t.type_name,y.yard_name,s.status_name,
+        (SELECT da.id FROM asset_driver_assignments da WHERE da.asset_id=a.id AND da.assigned_to IS NULL ORDER BY da.assigned_from DESC,da.id DESC LIMIT 1) driver_assignment_id,
+        (SELECT da.assigned_from FROM asset_driver_assignments da WHERE da.asset_id=a.id AND da.assigned_to IS NULL ORDER BY da.assigned_from DESC,da.id DESC LIMIT 1) driver_assigned_from,
+        (SELECT d.id FROM asset_driver_assignments da JOIN drivers d ON d.id=da.driver_id WHERE da.asset_id=a.id AND da.assigned_to IS NULL AND d.is_active=1 ORDER BY da.assigned_from DESC,da.id DESC LIMIT 1) driver_id,
+        (SELECT d.full_name FROM asset_driver_assignments da JOIN drivers d ON d.id=da.driver_id WHERE da.asset_id=a.id AND da.assigned_to IS NULL AND d.is_active=1 ORDER BY da.assigned_from DESC,da.id DESC LIMIT 1) driver_name
+        FROM assets a JOIN asset_types t ON t.id=a.asset_type_id LEFT JOIN yards y ON y.id=a.current_yard_id LEFT JOIN asset_statuses s ON s.id=a.current_status_id ORDER BY a.is_active DESC,a.primary_identifier")->fetchAll();
+    $yards=$db->query('SELECT id,yard_code,yard_name,location_description,is_active FROM yards ORDER BY is_active DESC,yard_name')->fetchAll();
+    $drivers=$db->query('SELECT id,full_name,phone,is_active FROM drivers ORDER BY is_active DESC,full_name')->fetchAll();
+    $types=$db->query('SELECT id,type_code,type_name FROM asset_types ORDER BY type_name')->fetchAll();
+    $statuses=$db->query('SELECT id,status_code,status_name,is_operational FROM asset_statuses ORDER BY status_name')->fetchAll();
+    $assignmentHistory=$db->query('SELECT da.id,da.asset_id,a.primary_identifier asset_identifier,d.full_name driver_name,da.assigned_from,da.assigned_to,da.notes,u.full_name assigned_by_name FROM asset_driver_assignments da JOIN assets a ON a.id=da.asset_id JOIN drivers d ON d.id=da.driver_id LEFT JOIN users u ON u.id=da.assigned_by ORDER BY da.assigned_from DESC,da.id DESC LIMIT 200')->fetchAll();
+    $locationHistory=$db->query('SELECT h.id,h.asset_id,a.primary_identifier asset_identifier,y.yard_name,h.valid_from,h.valid_to,h.notes,h.recorded_at FROM asset_yard_history h JOIN assets a ON a.id=h.asset_id JOIN yards y ON y.id=h.yard_id ORDER BY h.valid_from DESC,h.id DESC LIMIT 200')->fetchAll();
+    $activeAssignments=(int)$db->query('SELECT COUNT(*) FROM asset_driver_assignments WHERE assigned_to IS NULL')->fetchColumn();
+    $canReview=fleet_cert_user_can($user,'operations.approve');$canReadinessReview=fleet_cert_user_can($user,'readiness.approve');
+    $requests=$db->query("SELECT r.id,r.request_number,r.asset_id,r.action_type,r.payload_json,r.previous_json,r.request_reason,r.request_status,r.requested_by,r.requested_at,u.full_name requester_name,a.primary_identifier asset_identifier FROM operation_change_requests r JOIN users u ON u.id=r.requested_by LEFT JOIN assets a ON a.id=r.asset_id WHERE r.request_status='PENDING' ORDER BY r.requested_at,r.id")->fetchAll();
+    foreach($requests as &$request){$request['payload']=json_decode((string)$request['payload_json'],true)?:[];$request['previous']=json_decode((string)$request['previous_json'],true)?:[];$request['can_decide']=$canReview&&(int)$request['requested_by']!==(int)$user['id'];unset($request['payload_json'],$request['previous_json']);}unset($request);
+    $tripRequests=$db->query("SELECT t.id,t.trip_number,t.status,t.horse_asset_id,t.trailer_asset_id,t.driver_id,t.customer_name,t.pickup_location,t.destination,t.cargo_description,t.scheduled_departure,t.request_reason,t.requested_by,t.requested_at,h.primary_identifier horse,tr.primary_identifier trailer,d.full_name driver,u.full_name requester_name FROM fleet_trips t JOIN assets h ON h.id=t.horse_asset_id LEFT JOIN assets tr ON tr.id=t.trailer_asset_id JOIN drivers d ON d.id=t.driver_id JOIN users u ON u.id=t.requested_by WHERE t.status='PENDING' ORDER BY t.requested_at,t.id")->fetchAll();foreach($tripRequests as &$trip)$trip['can_decide']=fleet_cert_user_can($user,'trips.approve')&&(int)$trip['requested_by']!==(int)$user['id'];unset($trip);
+    $readinessRequests=$db->query("SELECT r.id,r.horse_asset_id,r.trailer_asset_id,r.driver_id,r.status,r.request_reason,r.requested_by,r.requested_at,h.primary_identifier horse,t.primary_identifier trailer,d.full_name driver,u.full_name requester_name FROM combination_readiness_approvals r JOIN assets h ON h.id=r.horse_asset_id JOIN assets t ON t.id=r.trailer_asset_id JOIN drivers d ON d.id=r.driver_id JOIN users u ON u.id=r.requested_by WHERE r.status='PENDING' ORDER BY r.requested_at,r.id")->fetchAll();foreach($readinessRequests as &$readiness)$readiness['can_decide']=$canReadinessReview&&(int)$readiness['requested_by']!==(int)$user['id'];unset($readiness);
+    json_response(['ok'=>true,'can_manage'=>fleet_cert_user_can($user,'operations.request'),'can_review'=>$canReview,'can_review_readiness'=>$canReadinessReview,'approval_requests'=>$requests,'trip_requests'=>$tripRequests,'readiness_requests'=>$readinessRequests,'assets'=>$assets,'yards'=>$yards,'drivers'=>$drivers,'asset_types'=>$types,'statuses'=>$statuses,'assignment_history'=>$assignmentHistory,'location_history'=>$locationHistory,'summary'=>['assets'=>count($assets),'active_assets'=>count(array_filter($assets,static fn($a)=>(int)$a['is_active']===1)),'yards'=>count(array_filter($yards,static fn($y)=>(int)$y['is_active']===1)),'drivers'=>count(array_filter($drivers,static fn($d)=>(int)$d['is_active']===1)),'active_assignments'=>$activeAssignments]]);
+} catch(Throwable $e) {
+    error_log('Operations data: '.$e->getMessage());
+    json_response(['ok'=>false,'message'=>'Fleet operations data could not be loaded.'],500);
+}

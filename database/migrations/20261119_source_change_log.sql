@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS spreadsheet_source_change_log (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    source_id BIGINT UNSIGNED NOT NULL,
+    sheet_id BIGINT UNSIGNED NOT NULL,
+    previous_sync_run_id BIGINT UNSIGNED DEFAULT NULL,
+    sync_run_id BIGINT UNSIGNED NOT NULL,
+    change_type ENUM('ROW_ADDED','ROW_UPDATED','ROW_DELETED') NOT NULL,
+    previous_source_row_number INT UNSIGNED DEFAULT NULL,
+    source_row_number INT UNSIGNED DEFAULT NULL,
+    previous_data LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (previous_data IS NULL OR JSON_VALID(previous_data)),
+    new_data LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (new_data IS NULL OR JSON_VALID(new_data)),
+    detected_at DATETIME NOT NULL,
+    prompted_at DATETIME DEFAULT NULL,
+    PRIMARY KEY (id),
+    KEY idx_source_change_time (detected_at),
+    KEY idx_source_change_run (sync_run_id,change_type),
+    KEY idx_source_change_sheet (sheet_id,detected_at),
+    CONSTRAINT fk_source_change_source FOREIGN KEY (source_id) REFERENCES spreadsheet_sources(id),
+    CONSTRAINT fk_source_change_sheet FOREIGN KEY (sheet_id) REFERENCES spreadsheet_sheets(id),
+    CONSTRAINT fk_source_change_previous_run FOREIGN KEY (previous_sync_run_id) REFERENCES spreadsheet_sync_runs(id) ON DELETE SET NULL,
+    CONSTRAINT fk_source_change_run FOREIGN KEY (sync_run_id) REFERENCES spreadsheet_sync_runs(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

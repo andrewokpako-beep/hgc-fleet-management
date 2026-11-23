@@ -1,0 +1,7 @@
+Options -Indexes
+Require local
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(?:config|includes|google|modules|database|cron|logs|reports|vendor)(?:/|$) - [F,END,NC]
+  RewriteRule ^index_notsure\.php$ - [F,END,NC]
+</IfModule>

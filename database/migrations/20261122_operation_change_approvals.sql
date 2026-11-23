@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS operation_change_requests (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  request_number VARCHAR(40) NOT NULL,
+  asset_id BIGINT UNSIGNED NULL,
+  action_type VARCHAR(40) NOT NULL,
+  payload_json LONGTEXT NOT NULL CHECK (JSON_VALID(payload_json)),
+  previous_json LONGTEXT NOT NULL CHECK (JSON_VALID(previous_json)),
+  request_reason VARCHAR(500) NULL,
+  request_status ENUM('PENDING','APPROVED','DECLINED','CANCELLED') NOT NULL DEFAULT 'PENDING',
+  requested_by BIGINT UNSIGNED NOT NULL,
+  requested_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  decided_by BIGINT UNSIGNED NULL,
+  decided_at DATETIME NULL,
+  decision_reason VARCHAR(500) NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_operation_request_number (request_number),
+  KEY idx_operation_request_status (request_status,requested_at),
+  KEY idx_operation_request_asset (asset_id,requested_at),
+  CONSTRAINT fk_operation_request_asset FOREIGN KEY (asset_id) REFERENCES assets(id) ON DELETE SET NULL,
+  CONSTRAINT fk_operation_requester FOREIGN KEY (requested_by) REFERENCES users(id),
+  CONSTRAINT fk_operation_decider FOREIGN KEY (decided_by) REFERENCES users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

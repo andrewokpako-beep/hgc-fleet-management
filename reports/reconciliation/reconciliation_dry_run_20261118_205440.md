@@ -1,0 +1,279 @@
+# Fleet Management — Reconciliation Dry-Run Report
+
+- Generated: 2026-11-18T20:54:40+02:00
+- Sync runs: 1, 2
+- Mode: READ ONLY
+- Production writes: NONE
+
+## Executive summary
+
+- Raw staged rows read: **803**
+- Asset identifier observations: **829**
+- Distinct normalized identifier + role groups: **708**
+- Repeated identifier groups: **121**
+- Exact cross-source repeated groups: **98**
+- Tracking observations: **214**
+- Exact tracking-to-asset identifier matches: **17**
+- Registered 21 Miles paired rows examined: **12**
+- Registered 21 Miles paired-row disagreements: **1**
+- Registered 21 Miles incomplete paired rows: **1**
+- Dashboard rows excluded: **28**
+- Non-identifier cells ignored: **99**
+
+## Findings requiring attention
+
+- **HIGH — Registered_21Miles side-by-side pair disagreement at source row 6**: Tanker section: CAH9085 / CAJ2981; flatbed section: CAH9095 / CAJ2981. Preserve both observations and require human confirmation.
+- **INFO — Registered_21Miles incomplete comparison at source row 13**: At least one side contains a blank or placeholder rather than a comparable identifier. Raw values are preserved; no disagreement is asserted. Tanker section: CAL5672 / CAK9516; flatbed section: CAL5672 / .................
+- **INFO — Dashboard rows excluded from identity matching**: 28 dashboard source rows were excluded; dashboard totals are not treated as an asset register.
+- **INFO — Independent 21 Miles IT lists preserved**: The two independently maintained source lists remain separate observations. Repeated IT values are not treated as duplicate physical assets or merged records.
+- **INFO — Tracking treated as observation-only**: 214 tracking objects were extracted. Only exact normalized identifier matches are reported; no yard assignment or permanent asset identity is inferred from geofence text.
+
+## Worksheet interpretation
+
+- Ngwerere_Tankers_status: column C is truck registration, column D is tanker registration; column B is make and column E is comment/status.
+- Ngwerere_Flatbeds_Status: column C is truck registration, column D is flatbed registration; column B is make and column E is comment/status.
+- Nakonde_Tankers_unregistered: columns A/B are head/trailer VIN candidates; yard text in column D is contextual only.
+- Nakonde_Flatbed_unregistered: columns A-D are head, attached trailer, unattached trailer 1, unattached trailer 2; column E is yard text. Only VIN-shaped values are extracted.
+- Registered_21Miles: A:B and D:E are separate tanker and flatbed sections. Their row-wise differences are review cases, not automatic corrections.
+- 21 Miles one-column IT sheets are classified as IT_REFERENCE only; the identifier does not establish a head/trailer role or permanent asset identity. Independently maintained lists remain separate source observations.
+- Ngwerere tracking sheet: column A object label, B status, C geofence. Status/geofence are time-specific observations.
+- Dashboard and Breakdown do not create asset identities; Breakdown was empty in the verified snapshot.
+
+## Exact cross-source identifier overlaps
+
+- `IT148305` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 2 col A [IT 148305]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 2 col A [IT 148305]
+- `IT148317` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 3 col A [IT 148317]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 3 col A [IT 148317]
+- `IT148297` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 4 col A [IT 148297]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 4 col A [IT 148297]
+- `IT148304` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 5 col A [IT 148304]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 5 col A [IT 148304]
+- `IT148318` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 6 col A [IT 148318]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 6 col A [IT 148318]
+- `IT022077` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 7 col A [IT 022077]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 7 col A [IT 022077]
+- `IT148313` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 8 col A [IT 148313]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 8 col A [IT 148313]
+- `IT148303` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 9 col A [IT 148303]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 9 col A [IT 148303]
+- `IT022080` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 10 col A [IT 022080]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 10 col A [IT 022080]
+- `IT148296` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 11 col A [IT 148296]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 11 col A [IT 148296]
+- `IT148306` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 12 col A [IT 148306]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 12 col A [IT 148306]
+- `IT148294` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 13 col A [IT 148294]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 13 col A [IT 148294]
+- `IT148323` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 14 col A [IT 148323]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 14 col A [IT 148323]
+- `IT148320` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 15 col A [IT 148320]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 15 col A [IT 148320]
+- `IT019404` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 16 col A [IT 019404]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 16 col A [IT 019404]
+- `IT148290` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 17 col A [IT 148290]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 17 col A [IT 148290]
+- `IT148308` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 18 col A [IT 148308]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 18 col A [IT 148308]
+- `IT022078` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 19 col A [IT 022078]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 19 col A [IT 022078]
+- `IT148302` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 20 col A [IT148302]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 20 col A [IT148302]
+- `IT148293` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 21 col A [IT 148293]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 21 col A [IT 148293]
+- `IT148307` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 22 col A [IT 148307]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 22 col A [IT 148307]
+- `IT022081` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 23 col A [IT 022081]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 23 col A [IT 022081]
+- `IT148289` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 24 col A [IT 148289]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 24 col A [IT 148289]
+- `IT148300` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 25 col A [IT 148300]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 25 col A [IT 148300]
+- `IT022079` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 26 col A [IT 022079]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 26 col A [IT 022079]
+- `IT148316` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 27 col A [IT148316]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 27 col A [IT148316]
+- `IT148301` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 28 col A [IT 148301]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 28 col A [IT 148301]
+- `IT148322` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 29 col A [IT 148322]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 29 col A [IT 148322]
+- `IT148292` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 30 col A [IT148292]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 30 col A [IT148292]
+- `IT148312` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 31 col A [IT 148312]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 31 col A [IT 148312]
+- `IT148295` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 32 col A [IT 148295]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 32 col A [IT 148295]
+- `IT148288` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 33 col A [IT 148288]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 33 col A [IT 148288]
+- `IT0548` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 2 col A [IT 0548]; NGWERERE_21MILES/Unregistered_21Miles/row 2 col A [IT 0548]
+- `IT0738` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 3 col A [IT 0738]; NGWERERE_21MILES/Unregistered_21Miles/row 3 col A [IT 0738]
+- `IT0542` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 4 col A [IT 0542]; NGWERERE_21MILES/Unregistered_21Miles/row 4 col A [IT 0542]
+- `IT0624` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 5 col A [IT 0624]; NGWERERE_21MILES/Unregistered_21Miles/row 5 col A [IT 0624]
+- `IT0931` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 6 col A [IT 0931]; NGWERERE_21MILES/Unregistered_21Miles/row 6 col A [IT 0931]
+- `IT0930` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 7 col A [IT 0930]; NGWERERE_21MILES/Unregistered_21Miles/row 7 col A [IT 0930]
+- `IT0640` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 8 col A [IT 0640]; NGWERERE_21MILES/Unregistered_21Miles/row 8 col A [IT 0640]
+- `IT0943` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 9 col A [IT 0943]; NGWERERE_21MILES/Unregistered_21Miles/row 9 col A [IT 0943]
+- `IT0962` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 10 col A [IT 0962]; NGWERERE_21MILES/Unregistered_21Miles/row 10 col A [IT 0962]
+- `IT1039` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 11 col A [IT 1039]; NGWERERE_21MILES/Unregistered_21Miles/row 11 col A [IT 1039]
+- `IT0942` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 12 col A [IT 0942]; NGWERERE_21MILES/Unregistered_21Miles/row 12 col A [IT 0942]
+- `IT0644` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 13 col A [IT 0644]; NGWERERE_21MILES/Unregistered_21Miles/row 13 col A [IT 0644]
+- `IT0749` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 14 col A [IT 0749]; NGWERERE_21MILES/Unregistered_21Miles/row 14 col A [IT 0749]
+- `IT0750` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 15 col A [IT 0750]; NGWERERE_21MILES/Unregistered_21Miles/row 15 col A [IT 0750]
+- `IT8310` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 16 col A [IT 8310]; NGWERERE_21MILES/Unregistered_21Miles/row 16 col A [IT 8310]
+- `IT8321` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 17 col A [IT 8321]; NGWERERE_21MILES/Unregistered_21Miles/row 17 col A [IT 8321]
+- `IT8309` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 18 col A [IT 8309]; NGWERERE_21MILES/Unregistered_21Miles/row 18 col A [IT 8309]
+- `IT8315` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 19 col A [IT 8315]; NGWERERE_21MILES/Unregistered_21Miles/row 19 col A [IT 8315]
+- `IT6071` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 20 col A [IT 6071]; NGWERERE_21MILES/Unregistered_21Miles/row 20 col A [IT 6071]
+- `IT8319` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 21 col A [IT 8319]; NGWERERE_21MILES/Unregistered_21Miles/row 21 col A [IT 8319]
+- `IT2082` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 22 col A [IT 2082]; NGWERERE_21MILES/Unregistered_21Miles/row 22 col A [IT 2082]
+- `IT2084` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 23 col A [IT 2084]; NGWERERE_21MILES/Unregistered_21Miles/row 23 col A [IT 2084]
+- `IT2083` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 24 col A [IT 2083]; NGWERERE_21MILES/Unregistered_21Miles/row 24 col A [IT 2083]
+- `IT2076` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 25 col A [IT 2076]; NGWERERE_21MILES/Unregistered_21Miles/row 25 col A [IT 2076]
+- `IT0638` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 26 col A [IT0638]; NGWERERE_21MILES/Unregistered_21Miles/row 26 col A [IT0638]
+- `IT1005` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 27 col A [IT 1005]; NGWERERE_21MILES/Unregistered_21Miles/row 27 col A [IT 1005]
+- `IT0566` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 28 col A [IT 0566]; NGWERERE_21MILES/Unregistered_21Miles/row 28 col A [IT 0566]
+- `IT1002` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 29 col A [IT 1002]; NGWERERE_21MILES/Unregistered_21Miles/row 29 col A [IT 1002]
+- `IT0937` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 30 col A [IT0937]; NGWERERE_21MILES/Unregistered_21Miles/row 30 col A [IT0937]
+- `IT0632` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 31 col A [IT 0632]; NGWERERE_21MILES/Unregistered_21Miles/row 31 col A [IT 0632]
+- `IT0547` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 32 col A [IT 0547]; NGWERERE_21MILES/Unregistered_21Miles/row 32 col A [IT 0547]
+- `IT8325` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 33 col A [IT 8325]; NGWERERE_21MILES/Unregistered_21Miles/row 33 col A [IT 8325]
+- `IT0555` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 34 col A [IT 0555]; NGWERERE_21MILES/Unregistered_21Miles/row 34 col A [IT 0555]
+- `IT0567` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 35 col A [IT 0567]; NGWERERE_21MILES/Unregistered_21Miles/row 35 col A [IT 0567]
+- `IT0944` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 36 col A [IT 0944]; NGWERERE_21MILES/Unregistered_21Miles/row 36 col A [IT 0944]
+- `IT8298` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 37 col A [IT 8298]; NGWERERE_21MILES/Unregistered_21Miles/row 37 col A [IT 8298]
+- `IT8326` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 38 col A [IT 8326]; NGWERERE_21MILES/Unregistered_21Miles/row 38 col A [IT 8326]
+- `IT0646` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 39 col A [IT 0646]; NGWERERE_21MILES/Unregistered_21Miles/row 39 col A [IT 0646]
+- `IT0557` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 40 col A [IT 0557]; NGWERERE_21MILES/Unregistered_21Miles/row 40 col A [IT 0557]
+- `IT8299` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 41 col A [IT 8299]; NGWERERE_21MILES/Unregistered_21Miles/row 41 col A [IT 8299]
+- `IT0960` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 42 col A [IT 0960]; NGWERERE_21MILES/Unregistered_21Miles/row 42 col A [IT 0960]
+- `IT0739` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 43 col A [IT 0739]; NGWERERE_21MILES/Unregistered_21Miles/row 43 col A [IT 0739]
+- `IT1034` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 44 col A [IT 1034]; NGWERERE_21MILES/Unregistered_21Miles/row 44 col A [IT 1034]
+- `IT0639` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 45 col A [IT 0639]; NGWERERE_21MILES/Unregistered_21Miles/row 45 col A [IT 0639]
+- `IT0961` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 46 col A [IT 0961]; NGWERERE_21MILES/Unregistered_21Miles/row 46 col A [IT 0961]
+- `IT8314` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 47 col A [IT 8314]; NGWERERE_21MILES/Unregistered_21Miles/row 47 col A [IT 8314]
+- `IT0932` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 48 col A [IT 0932]; NGWERERE_21MILES/Unregistered_21Miles/row 48 col A [IT 0932]
+- `IT0936` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 49 col A [IT 0936]; NGWERERE_21MILES/Unregistered_21Miles/row 49 col A [IT 0936]
+- `IT0543` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 50 col A [IT 0543]; NGWERERE_21MILES/Unregistered_21Miles/row 50 col A [IT 0543]
+- `IT0751` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 51 col A [IT 0751]; NGWERERE_21MILES/Unregistered_21Miles/row 51 col A [IT 0751]
+- `IT1004` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 52 col A [IT 1004]; NGWERERE_21MILES/Unregistered_21Miles/row 52 col A [IT 1004]
+- `IT0634` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 53 col A [IT 0634]; NGWERERE_21MILES/Unregistered_21Miles/row 53 col A [IT 0634]
+- `IT0645` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 54 col A [IT 0645]; NGWERERE_21MILES/Unregistered_21Miles/row 54 col A [IT 0645]
+- `IT0549` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 55 col A [IT 0549]; NGWERERE_21MILES/Unregistered_21Miles/row 55 col A [IT 0549]
+- `IT1038` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 56 col A [IT 1038]; NGWERERE_21MILES/Unregistered_21Miles/row 56 col A [IT 1038]
+- `IT0556` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 57 col A [IT 0556]; NGWERERE_21MILES/Unregistered_21Miles/row 57 col A [IT 0556]
+- `IT0625` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 58 col A [IT 0625]; NGWERERE_21MILES/Unregistered_21Miles/row 58 col A [IT 0625]
+- `IT1003` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 59 col A [IT 1003]; NGWERERE_21MILES/Unregistered_21Miles/row 59 col A [IT 1003]
+- `IT8311` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 60 col A [IT 8311]; NGWERERE_21MILES/Unregistered_21Miles/row 60 col A [IT 8311]
+- `IT0662` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 61 col A [IT 0662]; NGWERERE_21MILES/Unregistered_21Miles/row 61 col A [IT 0662]
+- `IT1040` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 62 col A [IT 1040]; NGWERERE_21MILES/Unregistered_21Miles/row 62 col A [IT 1040]
+- `IT0745` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 63 col A [IT 0745]; NGWERERE_21MILES/Unregistered_21Miles/row 63 col A [IT 0745]
+- `IT8324` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 64 col A [IT 8324]; NGWERERE_21MILES/Unregistered_21Miles/row 64 col A [IT 8324]
+- `IT0633` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 65 col A [IT 0633]; NGWERERE_21MILES/Unregistered_21Miles/row 65 col A [IT 0633]
+- `IT0541` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 66 col A [IT 0541]; NGWERERE_21MILES/Unregistered_21Miles/row 66 col A [IT 0541]
+- `IT0744` (IT_REFERENCE): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 67 col A [IT 0744]; NGWERERE_21MILES/Unregistered_21Miles/row 67 col A [IT 0744]
+
+## Repeated identifier observations
+
+- `IT148305` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 2 col A [IT 148305]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 2 col A [IT 148305]
+- `IT148317` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 3 col A [IT 148317]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 3 col A [IT 148317]
+- `IT148297` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 4 col A [IT 148297]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 4 col A [IT 148297]
+- `IT148304` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 5 col A [IT 148304]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 5 col A [IT 148304]
+- `IT148318` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 6 col A [IT 148318]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 6 col A [IT 148318]
+- `IT022077` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 7 col A [IT 022077]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 7 col A [IT 022077]
+- `IT148313` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 8 col A [IT 148313]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 8 col A [IT 148313]
+- `IT148303` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 9 col A [IT 148303]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 9 col A [IT 148303]
+- `IT022080` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 10 col A [IT 022080]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 10 col A [IT 022080]
+- `IT148296` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 11 col A [IT 148296]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 11 col A [IT 148296]
+- `IT148306` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 12 col A [IT 148306]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 12 col A [IT 148306]
+- `IT148294` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 13 col A [IT 148294]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 13 col A [IT 148294]
+- `IT148323` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 14 col A [IT 148323]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 14 col A [IT 148323]
+- `IT148320` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 15 col A [IT 148320]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 15 col A [IT 148320]
+- `IT019404` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 16 col A [IT 019404]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 16 col A [IT 019404]
+- `IT148290` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 17 col A [IT 148290]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 17 col A [IT 148290]
+- `IT148308` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 18 col A [IT 148308]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 18 col A [IT 148308]
+- `IT022078` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 19 col A [IT 022078]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 19 col A [IT 022078]
+- `IT148302` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 20 col A [IT148302]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 20 col A [IT148302]
+- `IT148293` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 21 col A [IT 148293]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 21 col A [IT 148293]
+- `IT148307` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 22 col A [IT 148307]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 22 col A [IT 148307]
+- `IT022081` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 23 col A [IT 022081]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 23 col A [IT 022081]
+- `IT148289` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 24 col A [IT 148289]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 24 col A [IT 148289]
+- `IT148300` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 25 col A [IT 148300]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 25 col A [IT 148300]
+- `IT022079` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 26 col A [IT 022079]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 26 col A [IT 022079]
+- `IT148316` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 27 col A [IT148316]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 27 col A [IT148316]
+- `IT148301` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 28 col A [IT 148301]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 28 col A [IT 148301]
+- `IT148322` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 29 col A [IT 148322]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 29 col A [IT 148322]
+- `IT148292` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 30 col A [IT148292]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 30 col A [IT148292]
+- `IT148312` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 31 col A [IT 148312]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 31 col A [IT 148312]
+- `IT148295` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 32 col A [IT 148295]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 32 col A [IT 148295]
+- `IT148288` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Flatbed_Unregistered/row 33 col A [IT 148288]; NGWERERE_21MILES/Unregistered_21Miles_NoTrailer/row 33 col A [IT 148288]
+- `IT0548` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 2 col A [IT 0548]; NGWERERE_21MILES/Unregistered_21Miles/row 2 col A [IT 0548]
+- `IT0738` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 3 col A [IT 0738]; NGWERERE_21MILES/Unregistered_21Miles/row 3 col A [IT 0738]
+- `IT0542` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 4 col A [IT 0542]; NGWERERE_21MILES/Unregistered_21Miles/row 4 col A [IT 0542]
+- `IT0624` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 5 col A [IT 0624]; NGWERERE_21MILES/Unregistered_21Miles/row 5 col A [IT 0624]
+- `IT0931` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 6 col A [IT 0931]; NGWERERE_21MILES/Unregistered_21Miles/row 6 col A [IT 0931]
+- `IT0930` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 7 col A [IT 0930]; NGWERERE_21MILES/Unregistered_21Miles/row 7 col A [IT 0930]
+- `IT0640` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 8 col A [IT 0640]; NGWERERE_21MILES/Unregistered_21Miles/row 8 col A [IT 0640]
+- `IT0943` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 9 col A [IT 0943]; NGWERERE_21MILES/Unregistered_21Miles/row 9 col A [IT 0943]
+- `IT0962` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 10 col A [IT 0962]; NGWERERE_21MILES/Unregistered_21Miles/row 10 col A [IT 0962]
+- `IT1039` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 11 col A [IT 1039]; NGWERERE_21MILES/Unregistered_21Miles/row 11 col A [IT 1039]
+- `IT0942` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 12 col A [IT 0942]; NGWERERE_21MILES/Unregistered_21Miles/row 12 col A [IT 0942]
+- `IT0644` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 13 col A [IT 0644]; NGWERERE_21MILES/Unregistered_21Miles/row 13 col A [IT 0644]
+- `IT0749` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 14 col A [IT 0749]; NGWERERE_21MILES/Unregistered_21Miles/row 14 col A [IT 0749]
+- `IT0750` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 15 col A [IT 0750]; NGWERERE_21MILES/Unregistered_21Miles/row 15 col A [IT 0750]
+- `IT8310` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 16 col A [IT 8310]; NGWERERE_21MILES/Unregistered_21Miles/row 16 col A [IT 8310]
+- `IT8321` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 17 col A [IT 8321]; NGWERERE_21MILES/Unregistered_21Miles/row 17 col A [IT 8321]
+- `IT8309` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 18 col A [IT 8309]; NGWERERE_21MILES/Unregistered_21Miles/row 18 col A [IT 8309]
+- `IT8315` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 19 col A [IT 8315]; NGWERERE_21MILES/Unregistered_21Miles/row 19 col A [IT 8315]
+- `IT6071` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 20 col A [IT 6071]; NGWERERE_21MILES/Unregistered_21Miles/row 20 col A [IT 6071]
+- `IT8319` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 21 col A [IT 8319]; NGWERERE_21MILES/Unregistered_21Miles/row 21 col A [IT 8319]
+- `IT2082` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 22 col A [IT 2082]; NGWERERE_21MILES/Unregistered_21Miles/row 22 col A [IT 2082]
+- `IT2084` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 23 col A [IT 2084]; NGWERERE_21MILES/Unregistered_21Miles/row 23 col A [IT 2084]
+- `IT2083` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 24 col A [IT 2083]; NGWERERE_21MILES/Unregistered_21Miles/row 24 col A [IT 2083]
+- `IT2076` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 25 col A [IT 2076]; NGWERERE_21MILES/Unregistered_21Miles/row 25 col A [IT 2076]
+- `IT0638` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 26 col A [IT0638]; NGWERERE_21MILES/Unregistered_21Miles/row 26 col A [IT0638]
+- `IT1005` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 27 col A [IT 1005]; NGWERERE_21MILES/Unregistered_21Miles/row 27 col A [IT 1005]
+- `IT0566` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 28 col A [IT 0566]; NGWERERE_21MILES/Unregistered_21Miles/row 28 col A [IT 0566]
+- `IT1002` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 29 col A [IT 1002]; NGWERERE_21MILES/Unregistered_21Miles/row 29 col A [IT 1002]
+- `IT0937` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 30 col A [IT0937]; NGWERERE_21MILES/Unregistered_21Miles/row 30 col A [IT0937]
+- `IT0632` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 31 col A [IT 0632]; NGWERERE_21MILES/Unregistered_21Miles/row 31 col A [IT 0632]
+- `IT0547` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 32 col A [IT 0547]; NGWERERE_21MILES/Unregistered_21Miles/row 32 col A [IT 0547]
+- `IT8325` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 33 col A [IT 8325]; NGWERERE_21MILES/Unregistered_21Miles/row 33 col A [IT 8325]
+- `IT0555` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 34 col A [IT 0555]; NGWERERE_21MILES/Unregistered_21Miles/row 34 col A [IT 0555]
+- `IT0567` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 35 col A [IT 0567]; NGWERERE_21MILES/Unregistered_21Miles/row 35 col A [IT 0567]
+- `IT0944` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 36 col A [IT 0944]; NGWERERE_21MILES/Unregistered_21Miles/row 36 col A [IT 0944]
+- `IT8298` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 37 col A [IT 8298]; NGWERERE_21MILES/Unregistered_21Miles/row 37 col A [IT 8298]
+- `IT8326` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 38 col A [IT 8326]; NGWERERE_21MILES/Unregistered_21Miles/row 38 col A [IT 8326]
+- `IT0646` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 39 col A [IT 0646]; NGWERERE_21MILES/Unregistered_21Miles/row 39 col A [IT 0646]
+- `IT0557` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 40 col A [IT 0557]; NGWERERE_21MILES/Unregistered_21Miles/row 40 col A [IT 0557]
+- `IT8299` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 41 col A [IT 8299]; NGWERERE_21MILES/Unregistered_21Miles/row 41 col A [IT 8299]
+- `IT0960` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 42 col A [IT 0960]; NGWERERE_21MILES/Unregistered_21Miles/row 42 col A [IT 0960]
+- `IT0739` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 43 col A [IT 0739]; NGWERERE_21MILES/Unregistered_21Miles/row 43 col A [IT 0739]
+- `IT1034` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 44 col A [IT 1034]; NGWERERE_21MILES/Unregistered_21Miles/row 44 col A [IT 1034]
+- `IT0639` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 45 col A [IT 0639]; NGWERERE_21MILES/Unregistered_21Miles/row 45 col A [IT 0639]
+- `IT0961` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 46 col A [IT 0961]; NGWERERE_21MILES/Unregistered_21Miles/row 46 col A [IT 0961]
+- `IT8314` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 47 col A [IT 8314]; NGWERERE_21MILES/Unregistered_21Miles/row 47 col A [IT 8314]
+- `IT0932` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 48 col A [IT 0932]; NGWERERE_21MILES/Unregistered_21Miles/row 48 col A [IT 0932]
+- `IT0936` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 49 col A [IT 0936]; NGWERERE_21MILES/Unregistered_21Miles/row 49 col A [IT 0936]
+- `IT0543` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 50 col A [IT 0543]; NGWERERE_21MILES/Unregistered_21Miles/row 50 col A [IT 0543]
+- `IT0751` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 51 col A [IT 0751]; NGWERERE_21MILES/Unregistered_21Miles/row 51 col A [IT 0751]
+- `IT1004` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 52 col A [IT 1004]; NGWERERE_21MILES/Unregistered_21Miles/row 52 col A [IT 1004]
+- `IT0634` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 53 col A [IT 0634]; NGWERERE_21MILES/Unregistered_21Miles/row 53 col A [IT 0634]
+- `IT0645` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 54 col A [IT 0645]; NGWERERE_21MILES/Unregistered_21Miles/row 54 col A [IT 0645]
+- `IT0549` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 55 col A [IT 0549]; NGWERERE_21MILES/Unregistered_21Miles/row 55 col A [IT 0549]
+- `IT1038` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 56 col A [IT 1038]; NGWERERE_21MILES/Unregistered_21Miles/row 56 col A [IT 1038]
+- `IT0556` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 57 col A [IT 0556]; NGWERERE_21MILES/Unregistered_21Miles/row 57 col A [IT 0556]
+- `IT0625` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 58 col A [IT 0625]; NGWERERE_21MILES/Unregistered_21Miles/row 58 col A [IT 0625]
+- `IT1003` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 59 col A [IT 1003]; NGWERERE_21MILES/Unregistered_21Miles/row 59 col A [IT 1003]
+- `IT8311` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 60 col A [IT 8311]; NGWERERE_21MILES/Unregistered_21Miles/row 60 col A [IT 8311]
+- `IT0662` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 61 col A [IT 0662]; NGWERERE_21MILES/Unregistered_21Miles/row 61 col A [IT 0662]
+- `IT1040` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 62 col A [IT 1040]; NGWERERE_21MILES/Unregistered_21Miles/row 62 col A [IT 1040]
+- `IT0745` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 63 col A [IT 0745]; NGWERERE_21MILES/Unregistered_21Miles/row 63 col A [IT 0745]
+- `IT8324` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 64 col A [IT 8324]; NGWERERE_21MILES/Unregistered_21Miles/row 64 col A [IT 8324]
+- `IT0633` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 65 col A [IT 0633]; NGWERERE_21MILES/Unregistered_21Miles/row 65 col A [IT 0633]
+- `IT0541` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 66 col A [IT 0541]; NGWERERE_21MILES/Unregistered_21Miles/row 66 col A [IT 0541]
+- `IT0744` (IT_REFERENCE, 2 observations): CONSOLIDATED_TRUCKS/21Miles_Tankers_Unregistered/row 67 col A [IT 0744]; NGWERERE_21MILES/Unregistered_21Miles/row 67 col A [IT 0744]
+- `AID4541ZM` (TRAILER, 2 observations): CONSOLIDATED_TRUCKS/Ngwerere_Tankers_status/row 37 col D [AID4541ZM]; CONSOLIDATED_TRUCKS/Ngwerere_Tankers_status/row 97 col D [AID4541ZM]
+- `CAJ3391` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 3 col A [CAJ3391]; NGWERERE_21MILES/Registered_21Miles/row 3 col D [CAJ3391]
+- `CAJ3525` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 3 col B [CAJ3525]; NGWERERE_21MILES/Registered_21Miles/row 3 col E [CAJ3525]
+- `CAJ3186` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 4 col A [CAJ3186]; NGWERERE_21MILES/Registered_21Miles/row 4 col D [CAJ3186]
+- `CAJ2980` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 4 col B [CAJ2980]; NGWERERE_21MILES/Registered_21Miles/row 4 col E [CAJ2980]
+- `CAL5643` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 5 col A [CAL5643]; NGWERERE_21MILES/Registered_21Miles/row 5 col D [CAL5643]
+- `CAL5692` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 5 col B [CAL5692]; NGWERERE_21MILES/Registered_21Miles/row 5 col E [CAL5692]
+- `CAJ2981` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 6 col B [CAJ2981]; NGWERERE_21MILES/Registered_21Miles/row 6 col E [CAJ2981]
+- `CAL5640` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 7 col A [CAL5640]; NGWERERE_21MILES/Registered_21Miles/row 7 col D [CAL5640]
+- `CAL6197` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 7 col B [CAL6197]; NGWERERE_21MILES/Registered_21Miles/row 7 col E [CAL6197]
+- `CAL6196` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 8 col A [CAL6196]; NGWERERE_21MILES/Registered_21Miles/row 8 col D [CAL6196]
+- `CAL6938` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 8 col B [CAL6938]; NGWERERE_21MILES/Registered_21Miles/row 8 col E [CAL6938]
+- `CAL7108` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 9 col A [CAL7108]; NGWERERE_21MILES/Registered_21Miles/row 9 col D [CAL7108]
+- `CAL6057` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 9 col B [CAL6057]; NGWERERE_21MILES/Registered_21Miles/row 9 col E [CAL6057]
+- `CAJ3181` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 10 col A [CAJ3181]; NGWERERE_21MILES/Registered_21Miles/row 10 col D [CAJ3181.]
+- `CAJ3413` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 10 col B [CAJ3413]; NGWERERE_21MILES/Registered_21Miles/row 10 col E [CAJ3413]
+- `CAL5641` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 11 col A [CAL5641]; NGWERERE_21MILES/Registered_21Miles/row 11 col D [CAL5641.]
+- `CAL5654` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 11 col B [CAL5654]; NGWERERE_21MILES/Registered_21Miles/row 11 col E [CAL5654]
+- `CAH9311` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 12 col A [CAH9311]; NGWERERE_21MILES/Registered_21Miles/row 12 col D [CAH9311]
+- `CAJ3409` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 12 col B [CAJ3409]; NGWERERE_21MILES/Registered_21Miles/row 12 col E [CAJ3409]
+- `CAL5672` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 13 col A [CAL5672]; NGWERERE_21MILES/Registered_21Miles/row 13 col D [CAL5672]
+- `CAH9224` (HEAD, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 14 col A [CAH9224]; NGWERERE_21MILES/Registered_21Miles/row 14 col D [CAH9224]
+- `CAJ2920` (TRAILER, 2 observations): NGWERERE_21MILES/Registered_21Miles/row 14 col B [CAJ2920]; NGWERERE_21MILES/Registered_21Miles/row 14 col E [CAJ2920]
+
+## Limitations and safeguards
+
+- This is a source-to-source observation analysis only. It does not compare against production assets because no production fleet assets have been imported.
+- A normalized exact match is a candidate relationship, not proof that two source rows describe the same physical asset.
+- No fuzzy matching, automatic asset merging, attachment creation, yard assignment, or status update is performed.
+- The Nakonde flatbed sheet contains two separate unattached-trailer columns; those values are independent trailer candidates, not confirmed attachments.
+- The Registered_21Miles side-by-side lists contain a known row-level conflict; all disagreements remain for human review.
+- The source sheets do not establish that every IT number is a permanent unique asset identifier or prove a physical head/trailer role. All one-column IT values use the neutral IT_REFERENCE role; source worksheet remains the context. Repeated IT values across independent lists are not duplicate-asset conclusions.
+- The local output files are reports only; the database connection is used for SELECT statements against sync metadata and staged raw rows.
+
+## Provenance detail
+
+Full row-level observations are in the companion JSON report. Each observation includes source, sync run, worksheet, original source row, column, raw value, normalized value, and asset role.

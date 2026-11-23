@@ -1,0 +1,106 @@
+FLEETDESK TRACKING API ASSESSMENT
+Updated: 2026-11-22
+
+Purpose
+-------
+Assess the Naviafri API documentation supplied by the FleetDesk owner for
+replacing spreadsheet-entered tracking observations on Tracking & Yards.
+PILOT GPS documentation is included only as a related API reference; do not
+assume all PILOT commands, parameters, or response fields are enabled by
+Naviafri for this account.
+
+Documentation reviewed
+----------------------
+Naviafri API overview: https://naviafri-api-docs.netlify.app/#overview
+Naviafri authentication: https://naviafri-api-docs.netlify.app/#authentication
+Naviafri base URL: https://naviafri-api-docs.netlify.app/#base-url
+Naviafri vehicle-list examples: https://naviafri-vehicle-list.netlify.app/#examples
+PILOT User API v2: https://docs.pilot-gps.com/user_api_v_2.html
+PILOT connection guide: https://docs.pilot-gps.com/how_to_connect_to_the_api.html
+PILOT vehicle list: https://docs.pilot-gps.com/vehicle_list.html
+PILOT current status: https://docs.pilot-gps.com/current_vehicle_status.html
+PILOT geofence history: https://docs.pilot-gps.com/geofence_visit_history.html
+PILOT geofence list: https://docs.pilot-gps.com/geofence_list.html
+PILOT trip report: https://docs.pilot-gps.com/trip_report_with_geolocation.html
+PILOT stops report: https://docs.pilot-gps.com/parking_and_stops_report.html
+
+Naviafri documented integration contract
+----------------------------------------
+- API base host in the public examples: https://gps.naviafri.com
+- API route shown in the Naviafri cURL/PHP/Python examples:
+  https://gps.naviafri.com/api/api.php
+- Authentication: HTTP Basic Auth in the examples. The documentation says to
+  request API access and use the credentials provided for the Naviafri account.
+  It does not guarantee that the website portal password is enabled for API use.
+- Vehicle list: GET the API route with cmd=YOUR_VEHICLE_LIST_COMMAND. The actual
+  list command is intentionally a placeholder in the Naviafri document and must
+  be confirmed for this account.
+- Naviafri's example response uses success/data with vehicle_id, registration,
+  status, latitude, longitude. This is illustrative, not proof of the account's
+  exact response schema.
+- PILOT User API v2 uses cmd=list and a code/msg/list response, and its guide
+  describes optional node selection. Use those details only if Naviafri confirms
+  this account is running that compatible API version/contract.
+
+Credentials
+-----------
+FleetDesk application credentials are unrelated and must never be used for the
+tracking API. PILOT documentation says a regular User API request uses the
+regular PILOT account username/password. Naviafri's branded docs instead say to
+request API access and use the credentials issued/provided for the Naviafri
+account. Therefore, use the Naviafri API credentials or ask Naviafri to confirm
+whether this account's portal username/password has API access enabled.
+
+The live unauthenticated probe of
+https://gps.naviafri.com/api/api.php?cmd=list returned HTTP 401 on 2026-11-21.
+That confirms the route is reachable and protected. A subsequent HTTP 401 when
+sending the website login means the server rejected the Basic Auth credentials
+or API access is not enabled. It is not a network or endpoint-path failure.
+
+What a successful connection may provide
+----------------------------------------
+- Vehicle identifiers (registration and provider vehicle ID; exact fields depend
+  on the Naviafri account's response schema).
+- Current location/status, provided the enabled API command returns it.
+- PILOT reference docs describe GPS time, latitude/longitude, speed, direction,
+  mileage, sensors, geofence history, trips, and stops; confirm each capability
+  with Naviafri before treating it as part of the Naviafri contract.
+- PILOT documents status requests for multiple vehicles, but the documents do
+  not give a maximum batch size. Batches of 25 are a proposed initial size only;
+  confirm limits/rate controls with Naviafri. Polling faster cannot make a GPS
+  device report a newer position than its own telemetry cadence.
+
+Current FleetDesk state
+-----------------------
+- Tracking & Yards still reads spreadsheet snapshots through
+  api/source-operations.php. It is not live GPS.
+- Settings has an admin-only, read-only connection test and encrypted storage
+  for credentials outside the web directory. The default endpoint is
+  https://gps.naviafri.com/api/api.php. A bare host is normalized to this route.
+- The test expects a JSON vehicle list in list, vehicles, data, or results. It
+  accepts both Naviafri's illustrative data envelope and PILOT's list envelope.
+  Configure the actual enabled command; `list` is the PILOT-documented default,
+  not confirmed for every Naviafri account.
+- FleetDesk has not started continuous polling or replaced the Tracking & Yards
+  data source. No map library is currently included.
+- A local reconciliation dry-run found only 17 exact matches among 214
+  spreadsheet tracking observations. A reviewed provider-ID-to-asset crosswalk
+  is necessary before assigning API positions to FleetDesk assets.
+
+Recommended rollout
+-------------------
+1. Ask Naviafri to enable API access and provide/confirm the API username,
+   password, exact list command, URL/path, whether a node parameter is required,
+   response format, batch limit and rate limit.
+2. Enter those values in Settings and run the connection test.
+3. Stage returned vehicles and IDs; resolve ambiguous/unmatched identifiers.
+4. Poll current status server-side in configurable batches (start at 25 only if
+   approved by provider), persist timestamped snapshots, and back off on 429 or
+   transient failures.
+5. Show positions with the device-reported update time and retain spreadsheet
+   observations as auditable historical data.
+6. Add trip, stop and geofence-history reports only after the account's enabled
+   endpoints and schemas have been confirmed.
+
+Do not expose vehicle command/control operations in the first release. Begin
+with read-only tracking data and account for tracker reporting cadence.

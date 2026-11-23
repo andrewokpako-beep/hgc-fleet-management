@@ -1,0 +1,26 @@
+# Dependencies
+/vendor/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# PHP
+*.log
+*.cache
+.phpunit.result.cache
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+build/
